@@ -5,7 +5,12 @@ const int leftLedsPin = D8;
 const int rightLedsPin = D7;
 const int frontLedsPin = D5;
 const int speakerPin = D1;
-int lastBeepMs = 0;
+
+// Phaser sound: a fast, repeating descending frequency sweep.
+const unsigned long phaserSweepMs = 220;
+const int phaserHighFreq = 2200;
+const int phaserLowFreq = 500;
+int lastPhaserFreq = -1;
 
 void setup() {
   Serial.begin(9600);
@@ -25,20 +30,17 @@ void loop() {
     digitalWrite(rightLedsPin, HIGH);
     digitalWrite(frontLedsPin, HIGH);
 
-    // Beep for 50ms every 500ms
-    unsigned long sinceLastBeep = millis() - lastBeepMs;
-    if (sinceLastBeep >= 50) {
-      digitalWrite(speakerPin, HIGH);
-      lastBeepMs = millis();
-    }
-    else if (sinceLastBeep >= 25) {
-      digitalWrite(speakerPin, LOW);
-    }
+    // Sweep the tone from high to low every phaserSweepMs, looping
+    // continuously for a classic "pew" phaser sound while held.
+    unsigned long elapsed = millis() % phaserSweepMs;
+    int freq = phaserHighFreq - (int)((phaserHighFreq - phaserLowFreq) * elapsed / phaserSweepMs);
+    tone(speakerPin, freq);
   }
   else {
     digitalWrite(leftLedsPin, LOW);
     digitalWrite(rightLedsPin, LOW);
     digitalWrite(frontLedsPin, LOW);
+    noTone(speakerPin);
     digitalWrite(speakerPin, LOW);
   }
 }
