@@ -1,9 +1,8 @@
 #include <Arduino.h>
 
-#define ATTiny
 
 
-#if defined ATTiny
+#ifdef ATtiny
 #define LEFT_LEDS_PIN PIN_PB0
 #else 
 #define LEFT_LEDS_PIN D8
