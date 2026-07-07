@@ -1,5 +1,13 @@
-// #include <Arduino.h>
+#include <Arduino.h>
 
+#define ATTiny
+
+
+#if defined ATTiny
+#define LEFT_LEDS_PIN PIN_PB0
+#else 
+#define LEFT_LEDS_PIN D8
+#endif 
 // const int triggerPin = D2;
 // const int leftLedsPin = D8;
 // const int rightLedsPin = D7;
@@ -13,8 +21,6 @@
 // int lastPhaserFreq = -1;
 
 // void setup() {
-//   Serial.begin(9600);
-//   pinMode(LED_BUILTIN, OUTPUT);
 //   pinMode(triggerPin, INPUT_PULLUP);
 //   pinMode(leftLedsPin, OUTPUT);
 //   pinMode(rightLedsPin, OUTPUT);
@@ -47,22 +53,21 @@
 //     lastPhaserFreq = -1;     
 //   }
 // }
-#include <Arduino.h>
 
 void setup()
 {
   // initialize LED digital pin as an output.
-  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(LEFT_LEDS_PIN, OUTPUT);
 }
 
 void loop()
 {
   // turn the LED on (HIGH is the voltage level)
-  digitalWrite(LED_BUILTIN, HIGH);
+  digitalWrite(LEFT_LEDS_PIN, HIGH);
   // wait for a second
-  delay(1000);
+  delay(500);
   // turn the LED off by making the voltage LOW
-  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(LEFT_LEDS_PIN, LOW);
    // wait for a second
-  delay(1000);
+  delay(500);
 }
